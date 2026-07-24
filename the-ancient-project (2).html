@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ancient Project — Final Year Project Builds</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root{
+    --ink:#16273A;
+    --paper:#EAF1F5;
+    --paper2:#FFFFFF;
+    --accent:#FF6B35;
+    --line:#C4D5DE;
+    --muted:#5C7384;
+    --grid: rgba(22,39,58,0.06);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+  }
+
+  .wrap{ max-width:980px; margin:0 auto; padding:0 28px; }
+
+  a{ color:inherit; }
+
+  /* ===== NAV ===== */
+  nav{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:26px 0; position:relative;
+  }
+  .logo{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700; font-size:18px;
+    letter-spacing:-0.5px;
+  }
+  .logo span{ color:var(--accent); }
+  .navlinks{ display:flex; gap:28px; font-size:14px; font-weight:500; flex-wrap:nowrap; }
+  .navlinks a{ white-space:nowrap; text-decoration:none; color:var(--muted); }
+  .navlinks a:hover{ color:var(--ink); }
+  .hamburger{
+    display:none; flex-direction:column; gap:5px;
+    cursor:pointer; padding:4px; background:none; border:none;
+  }
+  .hamburger span{
+    display:block; width:24px; height:2px;
+    background:var(--ink); border-radius:2px;
+    transition:all 0.2s;
+  }
+  .mobile-menu{
+    display:none; flex-direction:column;
+    position:absolute; top:100%; left:0; right:0;
+    background:var(--paper2);
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:8px 0;
+    z-index:100;
+    box-shadow:0 8px 24px rgba(11,31,46,0.10);
+  }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{
+    text-decoration:none; color:var(--ink);
+    font-size:15px; font-weight:500;
+    padding:13px 20px;
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-menu a:last-child{ border-bottom:none; }
+  @media(max-width:600px){
+    .navlinks{ display:none; }
+    .hamburger{ display:flex; }
+  }
+
+  /* ===== HERO ===== */
+  .hero{ padding:70px 0 60px 0; }
+  .stamp{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--accent);
+    border:1.5px solid var(--accent);
+    border-radius:4px;
+    padding:5px 12px;
+    transform:rotate(-2deg);
+    margin-bottom:24px;
+  }
+  h1{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700;
+    font-size:50px;
+    line-height:1.12;
+    letter-spacing:-1px;
+    max-width:680px;
+  }
+  .hero p{
+    margin-top:20px;
+    font-size:17px;
+    color:var(--muted);
+    max-width:520px;
+    line-height:1.6;
+  }
+  .hero-cta{
+    margin-top:30px;
+    display:flex;
+    gap:14px;
+  }
+  .btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    font-weight:600;
+    padding:13px 24px;
+    border-radius:6px;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .btn-primary{ background:var(--ink); color:#fff; }
+  .btn-secondary{ background:transparent; color:var(--ink); border:1.5px solid var(--ink); }
+
+  /* ===== SECTION HEADERS ===== */
+  .section{ padding:50px 0; border-top:1.5px dashed var(--line); }
+  .sec-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .sec-title{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700;
+    font-size:26px;
+    margin-bottom:30px;
+  }
+
+  /* ===== CASE STUDIES ===== */
+  .case-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .case{
+    background:var(--paper2);
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:24px 26px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .case-name{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:17px; }
+  .case-desc{ font-size:13.5px; color:var(--muted); margin-top:5px; line-height:1.5; }
+  .case-meta{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:3px 9px;
+    border-radius:20px;
+  }
+  .case-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:auto;
+    padding-top:14px;
+    border-top:1px dashed var(--line);
+  }
+  .approved{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:#1A8F62;
+    border:1.5px solid #1A8F62;
+    border-radius:4px;
+    padding:4px 10px;
+    display:inline-block;
+  }
+  .case-link{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:600;
+  }
+
+  /* ===== PRICING ===== */
+  .price-grid{ display:flex; gap:18px; }
+  .price-card{
+    flex:1;
+    background:var(--paper2);
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:26px;
+  }
+  .price-card.featured{ border-color:var(--ink); position:relative; }
+  .price-name{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  .price-amt{ font-family:'IBM Plex Mono',monospace; font-size:32px; font-weight:700; margin:10px 0; }
+  .price-desc{ font-size:13.5px; color:var(--muted); line-height:1.5; margin-bottom:14px; }
+  .price-list{ list-style:none; font-size:13.5px; }
+  .price-list li{ padding:6px 0; border-top:1px dashed var(--line); }
+  .price-list li:first-child{ border-top:none; }
+
+  /* ===== HOW IT WORKS ===== */
+  .steps{ display:flex; gap:16px; }
+  .step{ flex:1; }
+  .step-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .step-h{ font-weight:700; font-size:15px; margin:8px 0 5px 0; }
+  .step-p{ font-size:13px; color:var(--muted); line-height:1.5; }
+
+  /* ===== FORM (Work Order) ===== */
+  .form-card{
+    background:var(--paper2);
+    border:1.5px solid var(--ink);
+    border-radius:10px;
+    padding:34px;
+    position:relative;
+  }
+  .form-stamp{
+    position:absolute;
+    top:24px; right:30px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    border:1.5px solid var(--line);
+    border-radius:4px;
+    padding:4px 10px;
+    transform:rotate(3deg);
+  }
+  .form-title{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700;
+    font-size:20px;
+    margin-bottom:4px;
+  }
+  .form-sub{ font-size:13.5px; color:var(--muted); margin-bottom:24px; }
+  label{
+    display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--muted);
+    margin-bottom:6px;
+    margin-top:18px;
+  }
+  label:first-of-type{ margin-top:0; }
+  input, textarea{
+    width:100%;
+    border:1.5px solid var(--line);
+    border-radius:6px;
+    padding:12px 14px;
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  textarea{ min-height:100px; resize:vertical; }
+  input:focus, textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+  .submit-btn{
+    margin-top:26px;
+    width:100%;
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    padding:15px;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+  }
+  .submit-btn:hover{ background:#0F1C2A; }
+  .form-note{ font-size:12px; color:var(--muted); margin-top:14px; text-align:center; }
+
+  /* ===== FOOTER ===== */
+  footer{
+    padding:34px 0 50px 0;
+    text-align:center;
+  }
+  .foot-logo{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:14px; }
+  .foot-note{ font-size:12px; color:var(--muted); margin-top:6px; }
+
+  .offer-grid{ grid-template-columns:1fr 1fr; }
+  @media (max-width:600px){
+    .offer-grid{ grid-template-columns:1fr !important; }
+  }
+  @media (max-width:680px){
+    h1{ font-size:34px; }
+    .case-grid{ grid-template-columns:1fr; }
+    .price-grid, .steps{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">The <span>Ancient</span> Project</div>
+    <div class="navlinks">
+      <a href="#work">Completed Projects</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#request">Request a Build</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#work" onclick="closeMenu()">Completed Projects</a>
+      <a href="#pricing" onclick="closeMenu()">Pricing</a>
+      <a href="#request" onclick="closeMenu()">Request a Build</a>
+    </div>
+  </nav>
+  <script>
+    function toggleMenu(){
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    function closeMenu(){
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+  </script>
+
+  <section class="hero">
+    <div class="stamp">★ Built · Deployed · Live</div>
+    <h1>Your final year project,<br>built like a real product.</h1>
+    <p>Full-stack build, deployed on your own domain, ready to show your panel — and to anyone who searches your name. Tell us your topic, we draft the build.</p>
+    <div class="hero-cta">
+      <a href="#request" class="btn btn-primary">Request a Build →</a>
+      <a href="#work" class="btn btn-secondary">See Past Work</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-label">What We Offer</div>
+    <div class="sec-title">Software projects. Nothing else.</div>
+    <p style="font-size:15px; color:var(--muted); max-width:620px; line-height:1.7; margin-bottom:32px;">We build final year <strong style="color:var(--ink);">software-based projects only</strong> — functional web applications with a working interface and backend logic. Not art projects, not hardware, not business plans. If your project requires a working software system, this is for you.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;" class="offer-grid">
+
+      <div style="background:var(--paper2); border:1.5px solid var(--line); border-radius:10px; padding:22px 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); font-weight:600; margin-bottom:10px;">01 — Software Build</div>
+        <div style="font-weight:700; font-size:16px; margin-bottom:8px;">A fully working web application</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.6;">Frontend interface and backend logic built to match your project topic. Deployed live and accessible via a link you can demo to your panel on defense day.</div>
+      </div>
+
+      <div style="background:var(--paper2); border:1.5px solid var(--line); border-radius:10px; padding:22px 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); font-weight:600; margin-bottom:10px;">02 — Project Report</div>
+        <div style="font-weight:700; font-size:16px; margin-bottom:8px;">Full written documentation</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.6;">A complete multi-chapter project report written around your software — covering background, methodology, system design, implementation, and more. Follows the official guidelines recommended by the school that supervisors use.</div>
+      </div>
+
+      <div style="background:var(--paper2); border:1.5px solid var(--line); border-radius:10px; padding:22px 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); font-weight:600; margin-bottom:10px;">03 — Revisions</div>
+        <div style="font-weight:700; font-size:16px; margin-bottom:8px;">Changes before your defense</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.6;">Not a one-time handoff. If your supervisor requests changes or you want something adjusted before defense day, request it and it gets done.</div>
+      </div>
+
+      <div style="background:var(--paper2); border:1.5px solid var(--line); border-radius:10px; padding:22px 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); font-weight:600; margin-bottom:10px;">04 — WhatsApp Support</div>
+        <div style="font-weight:700; font-size:16px; margin-bottom:8px;">Direct access throughout</div>
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.6;">You have direct WhatsApp access from the moment you request a build to the moment your defense is done. No going dark, no delays in response.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="sec-label">Delivered</div>
+    <div class="sec-title">Projects already live</div>
+    <div class="case-grid">
+
+      <div class="case">
+        <div>
+          <div class="case-name">BrandVault</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; letter-spacing:0.5px;">Built for <span style="color:var(--ink); font-weight:600;">Ohagbara Pascal</span></div>
+          <div class="case-desc">Brand identity management system with asset storage, brand guideline pages, and a client-facing dashboard.</div>
+          <div class="case-meta">
+            <div class="tag">Full-stack</div>
+            <div class="tag">Supabase</div>
+            <div class="tag">Custom domain</div>
+          </div>
+        </div>
+        <div class="case-bottom">
+          <div class="approved">✓ Delivered</div>
+          <a href="https://brandvault-1059279759936.europe-west1.run.app/" target="_blank" rel="noopener" class="case-link">brandvault.app ↗</a>
+        </div>
+        <a href="https://raw.githubusercontent.com/DanielDera1955/brandvault/main/BrandVault_Project_Report.docx" download target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:7px; margin-top:12px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink); background:var(--paper); border:1.5px solid var(--line); border-radius:6px; padding:8px 14px; text-decoration:none; font-weight:600;">
+          ↓ Download Project Report
+        </a>
+      </div>
+
+      <div class="case">
+        <div>
+          <div class="case-name">RideConnect</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; letter-spacing:0.5px;">Built for <span style="color:var(--ink); font-weight:600;">Patrick Ibegbu</span></div>
+          <div class="case-desc">Ride-hailing PWA with live routing, real-time map, driver and rider flow, and OSRM routing engine.</div>
+          <div class="case-meta">
+            <div class="tag">PWA</div>
+            <div class="tag">Live routing</div>
+            <div class="tag">Custom domain</div>
+          </div>
+        </div>
+        <div class="case-bottom">
+          <div class="approved">✓ Delivered</div>
+          <a href="https://rideconnect-1059279759936.europe-west1.run.app/" target="_blank" rel="noopener" class="case-link">rideconnect.app ↗</a>
+        </div>
+      </div>
+
+      <div class="case">
+        <div>
+          <div class="case-name">Smart Traffic Control</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; letter-spacing:0.5px;">Built for <span style="color:var(--ink); font-weight:600;">Henry Umelechi</span></div>
+          <div class="case-desc">Smart traffic management system with a Flask backend and scikit-learn ML prediction model.</div>
+          <div class="case-meta">
+            <div class="tag">Flask</div>
+            <div class="tag">scikit-learn</div>
+            <div class="tag">Custom domain</div>
+          </div>
+        </div>
+        <div class="case-bottom">
+          <div class="approved">✓ Delivered</div>
+          <a href="https://smart-traffic-management-system-60597854905.europe-west1.run.app/" target="_blank" rel="noopener" class="case-link">smarttraffic.app ↗</a>
+        </div>
+      </div>
+
+      <div class="case">
+        <div>
+          <div class="case-name">Caritas Noticeboard</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); margin-top:4px; letter-spacing:0.5px;">Built for <span style="color:var(--ink); font-weight:600;">Ugwu Chidera</span></div>
+          <div class="case-desc">Real-time school notice board for Caritas University with announcements, grade portal, lost and found, and faculty sign-in.</div>
+          <div class="case-meta">
+            <div class="tag">Real-time</div>
+            <div class="tag">Grade portal</div>
+            <div class="tag">Full-stack</div>
+          </div>
+        </div>
+        <div class="case-bottom">
+          <div class="approved">✓ Live</div>
+          <a href="https://schoolnoticeboard.netlify.app/" target="_blank" rel="noopener" class="case-link">schoolnoticeboard.app ↗</a>
+        </div>
+      </div>
+
+    </div>
+    <p style="text-align:center; margin-top:18px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); letter-spacing:1px;">✦ Best Display on Desktop View</p>
+
+    <div style="margin-top:28px; background:#fff8f5; border:1.5px solid var(--accent); border-radius:10px; padding:20px 24px; display:flex; align-items:flex-start; gap:14px;">
+      <div style="font-size:20px; flex-shrink:0;">⚠</div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:14px; color:var(--accent); margin-bottom:6px;">Limited slots — first come, first served</div>
+        <div style="font-size:13.5px; color:var(--ink); line-height:1.6;">Builds this month run alongside exam session, so I can only take a fixed number of projects. Early requests get prioritized and full attention. The closer it gets to defense session, the less I can take on without compromising quality. Last-minute ones may not make it at all.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <div class="sec-label">Pricing</div>
+    <div class="sec-title">Two ways to work with us</div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-name">Project Only</div>
+        <div class="price-amt">₦70,000</div>
+        <div class="price-desc">Full build, deployed and accessible via a live link. Pay 70% upfront to begin. 30% on delivery after seeing the completed build.</div>
+        <div style="margin-top:16px; margin-bottom:8px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent);">What You Get</div>
+        <ul class="price-list">
+          <li>✦ &nbsp;Full frontend UI built to function properly and impress your panel</li>
+          <li>✦ &nbsp;Backend logic built to match exactly what your project requires</li>
+          <li>✦ &nbsp;Project deployed live and accessible via a shared link ready for your defense</li>
+          <li>✦ &nbsp;A working URL you can display on your documentation and show your supervisor</li>
+          <li>✦ &nbsp;Revisions on request before your defense. This is not a one-time handoff</li>
+          <li>✦ &nbsp;WhatsApp support throughout the build so you always know what is happening</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="price-name">Project + Report</div>
+        <div class="price-amt">₦95,000</div>
+        <div class="price-desc">Everything in Project Only plus a complete written project report following your school's official guidelines. Pay 70% upfront to begin. 30% on delivery after seeing the completed build.</div>
+        <div style="margin-top:16px; margin-bottom:8px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent);">What You Get</div>
+        <ul class="price-list">
+          <li>✦ &nbsp;Everything in Project Only: full build, live link, revisions, WhatsApp support</li>
+          <li>✦ &nbsp;Complete multi-chapter project report written specifically around your software</li>
+          <li>✦ &nbsp;The report follows the school's official guidelines your supervisor will require</li>
+          <li>✦ &nbsp;Covers background, literature review, methodology, system design, implementation, and conclusion</li>
+          <li>✦ &nbsp;Priority build queue so your project is handled before others</li>
+          <li>✦ &nbsp;A concise summary of your work so you are not going through the entire report the night before your defense</li>
+          <li>✦ &nbsp;A breakdown of what to present and the questions your panel is likely to ask so you walk in prepared</li>
+          <li>✦ &nbsp;You walk into your defense with a working app, a complete report, and full confidence in what you are presenting</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:28px; background:var(--paper); border:1.5px dashed var(--line); border-radius:10px; padding:24px 26px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;">Optional Add-on</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:240px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:16px; margin-bottom:8px;">Custom Domain + Google Indexing <span style="color:var(--accent);">+₦15,000</span></div>
+          <div style="font-size:13.5px; color:var(--muted); line-height:1.6;">Instead of a generic shared link, your project gets its own domain — something like <span style="font-family:'IBM Plex Mono',monospace; color:var(--ink); font-weight:600;">yourproject.com</span> instead of a subdomain. Just like <span style="font-family:'IBM Plex Mono',monospace; color:var(--ink); font-weight:600;">theancientproject.subdomain.app</span> becomes <span style="font-family:'IBM Plex Mono',monospace; color:var(--ink); font-weight:600;">theancientproject.com</span>. Your project is then submitted to Google Search Console so it becomes searchable and findable online within days.</div>
+        </div>
+        <div style="flex-shrink:0; text-align:right;">
+          <div style="font-size:13px; color:var(--muted); margin-bottom:6px;">Add to any plan</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:22px; color:var(--ink);">₦15,000</div>
+        </div>
+      </div>
+      <div style="margin-top:16px; display:flex; gap:16px; flex-wrap:wrap;">
+        <div style="font-size:13px; color:var(--ink);">✦ &nbsp;Your own custom domain name</div>
+        <div style="font-size:13px; color:var(--ink);">✦ &nbsp;Submitted to Google Search Console</div>
+        <div style="font-size:13px; color:var(--ink);">✦ &nbsp;Searchable and findable online within days</div>
+        <div style="font-size:13px; color:var(--ink);">✦ &nbsp;Professional link to put on your CV and documentation</div>
+      </div>
+    </div>
+    <div style="margin-top:24px; background:var(--paper2); border:1.5px solid var(--line); border-radius:10px; padding:20px 24px;">
+      <div style="font-size:14px; color:var(--ink); line-height:1.7;">Pricing is based on your project's complexity and requirements. Not all projects are built equal — a simple CRUD system and an ML-backed platform are not the same build. These prices reflect what most projects fall within. Send your topic and we'll give you an honest quote before anything starts.</div>
+    </div>
+    <p style="text-align:center; margin-top:22px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);">70% upfront before work begins · 30% on delivery after seeing the completed build</p>
+  </section>
+
+  <section class="section">
+    <div class="sec-label">Process</div>
+    <div class="sec-title">How a build request works</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-h">You submit your topic</div>
+        <div class="step-p">Submit your name, project title, WhatsApp number, and a short description of what your project needs to do.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-h">We scope and confirm</div>
+        <div class="step-p">You get a build plan, timeline, and price back on WhatsApp before anything starts.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-h">We build and deploy</div>
+        <div class="step-p">UI + backend built, deployed live on your own domain, submitted for Google search indexing.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-h">You review and request changes</div>
+        <div class="step-p">Not a one-time handoff — request updates any time before your defense.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="request">
+    <div class="sec-label">Start here</div>
+    <div class="sec-title">Request a build</div>
+
+    <div class="form-card" id="form-wrap">
+      <div class="form-stamp">WORK ORDER</div>
+      <div id="form-body">
+        <div class="form-title">Tell us about your project</div>
+        <div class="form-sub">We'll review it and reply on WhatsApp with a scope and price.</div>
+
+        <label for="name">Your name</label>
+        <input type="text" id="name" name="name" required placeholder="e.g. Adaeze Okafor">
+
+        <label for="title">Project title</label>
+        <input type="text" id="title" name="project_title" required placeholder="e.g. Online Voting System">
+
+        <label for="whatsapp">WhatsApp number</label>
+        <input type="tel" id="whatsapp" name="whatsapp" required placeholder="e.g. 0915 126 6633">
+
+        <label for="project">Describe your project</label>
+        <textarea id="project" name="project_description" required placeholder="What is the project about? Leave empty if you don't know."></textarea>
+
+        <button class="submit-btn" onclick="submitForm()">Submit Request</button>
+        <div class="form-note">We respond within 24 hours. No payment required to submit.</div>
+      </div>
+      <div id="form-thanks" style="display:none; text-align:center; padding:40px 0;">
+        <div style="font-size:36px; margin-bottom:16px;">✓</div>
+        <div class="form-title">We've got your request.</div>
+        <div class="form-sub" style="margin-top:10px;">We'll reach out on WhatsApp within 24 hours with a scope and price. No payment until you're happy with the plan.</div>
+      </div>
+    </div>
+    <script>
+    async function submitForm() {
+      const name = document.getElementById('name').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const project = document.getElementById('project').value.trim();
+      const title = document.getElementById('title').value.trim();
+      if (!name || !title || !whatsapp) {
+        alert('Please fill in all fields before submitting.');
+        return;
+      }
+      const btn = document.querySelector('.submit-btn');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      try {
+        const res = await fetch('https://formspree.io/f/xwvangov', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name, project_title: title, whatsapp, project_description: project })
+        });
+        if (res.ok) {
+          document.getElementById('form-body').style.display = 'none';
+          document.getElementById('form-thanks').style.display = 'block';
+        } else {
+          btn.textContent = 'Submit Request';
+          btn.disabled = false;
+          alert('Something went wrong. Please try again.');
+        }
+      } catch(e) {
+        btn.textContent = 'Submit Request';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again.');
+      }
+    }
+    </script>
+  </section>
+
+  <footer>
+    <div class="foot-logo">The Ancient Project</div>
+    <div class="foot-note">Built. Deployed. Yours.</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
